@@ -1,11 +1,32 @@
 import mysql.connector
+USER='root'
+PASSWORD='******'
+HOST='127.0.0.1'
+PORT='3306'
+DATABASE='sensye'
+TABLE='mushrooms'
 
 db = mysql.connector.connect(
-        user='root', password='******',
-        host='127.0.0.1', port=3306,
-        database='sensye',)
+        user=USER, password=PASSWORD,
+        host=HOST, port=PORT,
+        database=DATABASE,)
 
-q = "INSERT INTO mushrooms (cap_shape,cap_colour,odor,gill_size,gill_colour,stalk_colour_above_ring,veil_colour,ring_type,spore_print_colour,population,habitat,latitude,longtidue, time)VALUES('p','s','t','c','n','s','w','p','k','s','u',46.4504,62.4556,'2:24:56 pm')"
+q = f'''CREATE TABLE IF NOT EXISTS {DATABASE}.{TABLE}(
+cap_shape varchar(20),
+cap_colour varchar(20),
+odor varchar(20),
+gill_size varchar(20),
+gill_colour varchar(20),
+stalk_colour_above_ring varchar(20),
+veil_colour varchar(20),
+ring_type varchar(20),
+spore_print_colour varchar(20),
+population varchar(20),
+habitat varchar(20),
+latitude double,
+longtidue double,
+time varchar (32)
+)'''
 c = db.cursor()
 c.execute(q)
 db.commit()
