@@ -1,0 +1,41 @@
+1. How many different species of mushroom are there, if a species is identified by the attributes 1-20?
+
+SELECT count(distinct cap_shape) * count(distinct cap_colour) * count(distinct odor) * count(distinct gill_size)
+* count(distinct gill_colour) * count(distinct stalk_colour_above_ring) * count(distinct veil_colour) *
+count(distinct ring_type) * count(distinct spore_print_colour) as mushroom_species from sensye.mushrooms
+
+2. Does habitat and cap-color correlate?
+
+with h as (
+select habitat, cap_colour, count(2) as cnt_cap_colour from sensye.mushrooms
+WHERE cap_colour != 'Null'
+GROUP BY 1, 2
+)
+, tc as (
+ select count(cap_colour )as total_colour, cap_colour from sensye.mushrooms
+ where cap_colour != 'Null'
+ GROUP BY cap_colour)
+ select h.habitat, h.cap_colour, (h.cnt_cap_colour/tc.total_colour)*100 from h
+ join tc on h.cap_colour = tc.cap_colour
+
+3. Considering a specific geographical point, what colours should we be able to see in the 10 km around it?
+
+ WITH colour as
+(
+SELECT latitude as lat2, longtidue as lng2, cap_colour, (
+ select
+  6371 * 2 * ASIN(SQRT(
+              POWER(SIN((80.038 - lat2) * pi()/180 / 2),
+              2) + COS(80.038 * pi()/180 ) * COS(lat2) *
+              pi()/180) * POWER(SIN((-130.3698 - lng2) *
+             pi()/180 / 2), 2) ))
+ from sensye.mushrooms
+ WHERE (select
+  6371 * 2 * ASIN(SQRT(
+              POWER(SIN((80.038 - latitude) * pi()/180 / 2),
+              2) + COS(80.038 * pi()/180 ) * COS(latitude) *
+              pi()/180) * POWER(SIN((-130.3698 - longtidue ) *
+             pi()/180 / 2), 2) )) < 10
+)
+     SELECT distinct cap_colour from colour
+
