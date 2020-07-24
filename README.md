@@ -42,13 +42,15 @@ This is a data engineer excercise on the Extract, Transform and Load process  by
 
 ## Usage & Instrunctions to test :
 
-once you sucesfully git clone the repository please follow the below steps
+Once you sucesfully git clone the repository please follow the below steps
 
-initialise the database from CLI using  sudo launchctl load -F com.oracle.oss.mysql.mysqld.plist
+a.Install MYSQL
 
-a.execute the db script in pycharm 
+b.Run DB script to create table 
+python database_script.py (Note: In this script you have to pass the DB details)
 
-b.execute the etl script in the pycharm after ensuring the db is created Pleas be informed the data given is agaricus-lepiota.csv and the processed is trns-file.txt
+c.Run the etl script in the CLI after ensuring the db is created Pleas be informed the data given is agaricus-lepiota.csv and the processed is trns-file.txt
 that has the mapping done
+python Etlscript.py 
 
-c.execute the mysql scripts in mysql workbench to validate the requirment criteria
+d.execute the mysql scripts in mysql workbench to validate the requirment criteria.
